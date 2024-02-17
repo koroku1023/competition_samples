@@ -18,7 +18,7 @@ from src.predict.lgbm_predict import predictor
 from src.save.save_model import save_model
 
 RAW_DATA_DIR = "data/raw"
-BASE_MODEL_SVE_DIR = "model/base_models"
+BASE_MODEL_SVE_DIR = "model/base"
 OOF_DATA_DIR = "data/oof"
 SUBMISSION_DATA_DIR = "data/submission"
 
