@@ -1,3 +1,7 @@
 .venv/
-data/*
+oof/*
+data/submission/
+data/oof/
+data/processed/
 model/*
+__pycache__/
