@@ -70,7 +70,7 @@ class ModelEvaluator:
         )
         if verbose:
             print(
-                f"Train F1 Score (Training): {self.bal_acc_train:.5f}  (Validation): {self.bal_acc_valid:.5f}"
+                f"F1 Score (Training): {self.bal_acc_train:.5f}  (Validation): {self.bal_acc_valid:.5f}"
             )
 
         if return_result:
