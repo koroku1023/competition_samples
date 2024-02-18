@@ -1,7 +1,6 @@
 from typing import List, Any
 import pandas as pd
 import numpy as np
-import xgboost as xgb
 
 
 def predictor(
@@ -11,11 +10,10 @@ def predictor(
     is_base: bool = False,
 ):
 
-    xgb_dataset = xgb.DMatrix(X, feature_names=list(X.columns))
     pred_probs = np.zeros(len(X))
     for i, model in enumerate(models):
         # 予測
-        pred_probs += model.predict(xgb_dataset)
+        pred_probs += model.predict_proba(X)[:, 1]
 
     pred_probs /= len(models)
     predictions = (pred_probs > threshold).astype(int)
