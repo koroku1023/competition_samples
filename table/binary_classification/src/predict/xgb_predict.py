@@ -12,8 +12,6 @@ def predictor(
     cols: List[str] = None,
 ):
 
-    if cols:
-        X = X[cols[i]]
     xgb_dataset = xgb.DMatrix(X, feature_names=list(X.columns))
     pred_probs = np.zeros(len(X))
     for i, model in enumerate(models):
