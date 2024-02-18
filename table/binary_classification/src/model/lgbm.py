@@ -1,6 +1,5 @@
 import os
 import random
-import pickle
 import sys
 
 sys.path.append(
@@ -18,7 +17,7 @@ from src.predict.lgbm_predict import predictor
 from src.save.save_model import save_model
 
 RAW_DATA_DIR = "data/raw"
-BASE_MODEL_SVE_DIR = "model/base"
+CV_MODEL_SVE_DIR = "model/cv"
 OOF_DATA_DIR = "data/oof"
 SUBMISSION_DATA_DIR = "data/submission"
 
@@ -86,10 +85,10 @@ def main():
     # モデルを保存
     for i, model in enumerate(models):
         dir_name = f"lgbm"
-        if not os.path.exists(os.path.join(BASE_MODEL_SVE_DIR, dir_name)):
-            os.makedirs(os.path.join(BASE_MODEL_SVE_DIR, dir_name))
+        if not os.path.exists(os.path.join(CV_MODEL_SVE_DIR, dir_name)):
+            os.makedirs(os.path.join(CV_MODEL_SVE_DIR, dir_name))
         model_name = f"lgbm_fold{i+1}_{f1:.5f}.pkl"
-        model_path = os.path.join(BASE_MODEL_SVE_DIR, dir_name, model_name)
+        model_path = os.path.join(CV_MODEL_SVE_DIR, dir_name, model_name)
         save_model(model, model_path)
 
     # 予測
