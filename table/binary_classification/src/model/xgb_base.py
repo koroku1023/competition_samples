@@ -105,8 +105,8 @@ def main():
     # oofをcsvファイルに保存
     df_oof_train.index = df_train.index
     df_oof_test.index = df_test.index
-    file_name_oof_train_csv = f"xgb_base.csv"
-    file_name_oof_test_csv = f"xgb_base.csv"
+    file_name_oof_train_csv = f"train_xgb_base.csv"
+    file_name_oof_test_csv = f"test_xgb_base.csv"
     df_oof_train.to_csv(os.path.join(OOF_DATA_DIR, file_name_oof_train_csv))
     df_oof_test.to_csv(os.path.join(OOF_DATA_DIR, file_name_oof_test_csv))
 
