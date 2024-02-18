@@ -8,8 +8,8 @@ def ordinal_encoder(
 ):
 
     oe = ce.OrdinalEncoder(cols=cols, return_df=False)
-    X_train[cols] = oe.fit_transform(X_train[cols])
-    X_test[cols] = oe.transform(X_test[cols])
+    X_train[cols] = oe.fit_transform(X_train[cols]) - 1
+    X_test[cols] = oe.transform(X_test[cols]) - 1
 
     return X_train, X_test
 
