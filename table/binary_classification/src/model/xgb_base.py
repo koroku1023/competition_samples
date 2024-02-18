@@ -12,8 +12,8 @@ import numpy as np
 from src.preprocessing.tools import convert_column_type
 from src.preprocessing.encoder import ordinal_encoder
 from src.preprocessing.missing_value import default_mv_processor
-from src.training.lgbm_training import trainer
-from src.predict.lgbm_predict import predictor
+from src.training.xgb_training import trainer
+from src.predict.xgb_predict import predictor
 from src.save.save_model import save_model
 
 RAW_DATA_DIR = "data/raw"
@@ -73,24 +73,25 @@ def main():
     df_oof_test = pd.DataFrame()
     for base_num in list(range(5)):
         params = {
-            "objective": "binary",
-            "metric": "binary_logloss",
-            "learning_rate": 0.01,
+            "objective": "binary:logistic",
+            "eval_metric": "logloss",
+            "eta": 0.1,
             "max_depth": 6,
-            "feature_fraction": 0.30,
-            "num_iterations": 1000,
+            "min_child_weight": 5,
+            "colsample_bytree": 0.50,
+            "num_round": 1000,
             "seed": 42 + base_num,
-            "num_threads": 5,
-            "verbose": -1,
+            "nthread": -1,
+            "verbosity": 0,
         }
         models, f1, oof = trainer(X_train, y_train, params, is_base=True)
 
         # モデルを保存
         for fold_num, model in enumerate(models):
-            dir_name = f"lgbm_base"
+            dir_name = f"xgb_base"
             if not os.path.exists(os.path.join(BASE_MODEL_SVE_DIR, dir_name)):
                 os.makedirs(os.path.join(BASE_MODEL_SVE_DIR, dir_name))
-            model_name = f"lgbm_base{base_num+1}_fold{fold_num+1}_{f1:.5f}.pkl"
+            model_name = f"xgb_base{base_num+1}_fold{fold_num+1}_{f1:.5f}.pkl"
             model_path = os.path.join(BASE_MODEL_SVE_DIR, dir_name, model_name)
             save_model(model, model_path)
 
@@ -98,14 +99,14 @@ def main():
         pred, pred_probs = predictor(X_test, models, is_base=True)
 
         # oofを保存
-        df_oof_train[f"lgbm_base{base_num+1}"] = oof
-        df_oof_test[f"lgbm_base{base_num+1}"] = pred_probs
+        df_oof_train[f"xgb_base{base_num+1}"] = oof
+        df_oof_test[f"xgb_base{base_num+1}"] = pred_probs
 
     # oofをcsvファイルに保存
     df_oof_train.index = df_train.index
     df_oof_test.index = df_test.index
-    file_name_oof_train_csv = f"lgbm_base.csv"
-    file_name_oof_test_csv = f"lgbm_base.csv"
+    file_name_oof_train_csv = f"xgb_base.csv"
+    file_name_oof_test_csv = f"xgb_base.csv"
     df_oof_train.to_csv(os.path.join(OOF_DATA_DIR, file_name_oof_train_csv))
     df_oof_test.to_csv(os.path.join(OOF_DATA_DIR, file_name_oof_test_csv))
 
