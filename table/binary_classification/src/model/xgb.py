@@ -84,11 +84,11 @@ def main():
     models, f1 = trainer(X_train, y_train, params)
 
     # モデルを保存
-    for i, model in enumerate(models):
+    for fold_num, model in enumerate(models):
         dir_name = f"xgb"
         if not os.path.exists(os.path.join(CV_MODEL_SVE_DIR, dir_name)):
             os.makedirs(os.path.join(CV_MODEL_SVE_DIR, dir_name))
-        model_name = f"xgb_fold{i+1}_{f1:.5f}.pkl"
+        model_name = f"xgb_fold{fold_num+1}_{f1:.5f}.pkl"
         model_path = os.path.join(CV_MODEL_SVE_DIR, dir_name, model_name)
         save_model(model, model_path)
 
