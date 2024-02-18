@@ -19,7 +19,6 @@ def trainer(
     params: Dict[str, Any],
     n_splits: int = 5,
     is_base: bool = False,
-    cols: List = None,
 ):
 
     kf = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=42)
@@ -38,9 +37,6 @@ def trainer(
         # データセットの作成
         X_train_f, X_valid_f = X.iloc[train_index], X.iloc[valid_index]
         y_train_f, y_valid_f = y.iloc[train_index], y.iloc[valid_index]
-
-        if cols:
-            X_train_f, X_valid_f = X_train_f[cols[i]], X_valid_f[cols[i]]
 
         xgb_train = xgb.DMatrix(
             X_train_f, y_train_f, feature_names=list(X_train_f.columns)
