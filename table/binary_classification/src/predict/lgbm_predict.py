@@ -11,11 +11,11 @@ def predictor(
     cols: List[str] = None,
 ):
 
+    if cols:
+        X = X[cols[i]]
     pred_probs = np.zeros(len(X))
     for i, model in enumerate(models):
         # 予測
-        if cols:
-            X = X[cols[i]]
         pred_probs += model.predict(X)
 
     pred_probs /= len(models)
