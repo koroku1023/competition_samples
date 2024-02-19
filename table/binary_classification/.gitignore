@@ -1,0 +1,8 @@
+.venv/
+oof/*
+data/submission/
+data/oof/
+data/processed/
+model/*
+__pycache__/
+catboost_info/
