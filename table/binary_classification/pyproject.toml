@@ -21,6 +21,9 @@ category-encoders = "^2.6.3"
 imblearn = "^0.0"
 
 
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.29.2"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
